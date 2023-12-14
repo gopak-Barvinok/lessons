@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Demo.sol": {
+      "content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.9;\n\n// Uncomment this line to use console.log\n// import \"hardhat/console.sol\";\n\ncontract Demo {\n    string public message;\n\n    function pay(string calldata _message) external payable {\n        message = _message;\n    }\n\n    function callme() external view returns(address) {\n        return msg.sender;\n    }\n\n    function distribute(address[] calldata _addrs) external {\n        uint count = _addrs.length;\n        uint sum = address(this).balance / count;\n\n        for(uint i = 0; i < count; i++) {\n            (bool success,) = _addrs[i].call{value: sum}(\"\");\n            require(success);\n        }\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
